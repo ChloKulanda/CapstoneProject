@@ -9,13 +9,14 @@ namespace CapstoneProject
     //
     // enum
     //
-    public enum Hair 
+    public enum Hair
     {
-        CURLS,
-        UPDO,
-        HALFUP,
-        BUZZED
+        CURLS = 15,
+        UPDO = 50,
+        HALFUP = 25,
+        BUZZED = 10
     }
+
 
 
     class Program
@@ -35,8 +36,9 @@ namespace CapstoneProject
         // set up global variables
         //
         static string userResponse;
-        static Hair hairStyles;
-
+        static int numberOfPeople; 
+        static int quote;
+        static int costOfStyle;
 
         static void Main(string[] args)
         {
@@ -52,18 +54,71 @@ namespace CapstoneProject
         {
             DisplayHeader("Number of People");
 
-            Console.Write("Please enter the number of people getting their hair done:  ");
+            Console.WriteLine();
+            Console.Write("Enter number of people: ");
             userResponse = Console.ReadLine();
+            while (!int.TryParse(userResponse, out numberOfPeople))
+            {
+                Console.WriteLine();
+                Console.WriteLine("It appears you did not enter a valid number");
+                Console.WriteLine("Please Try again");
+                Console.WriteLine();
+                Console.Write("Enter number of people: ");
+                userResponse = Console.ReadLine();
+            }
+        }
+
+        /// <summary>
+        /// Select hair style
+        /// </summary>
+        static void DisplayHairStyleSelection()
+        {
+            Hair hairStyles;
+            DisplayHeader("Hair Style Selection");
+
+
+            Console.Write("Select your choice of hair style (Curls, Updo, HalfUp, Buzzed): ");
+            userResponse = Console.ReadLine().ToUpper();
+            Enum.TryParse<Hair>(userResponse, out hairStyles);
+
+            switch (hairStyles)
+            {
+                case Hair.CURLS:
+                    costOfStyle = (int)Hair.CURLS;
+                    Console.WriteLine($"You chose {userResponse}");
+                    break;
+                case Hair.UPDO:
+                    costOfStyle = (int)Hair.UPDO;
+                    Console.WriteLine($"You chose {userResponse}");
+                    break;
+                case Hair.HALFUP:
+                    costOfStyle = (int)Hair.HALFUP;
+                    Console.WriteLine($"You chose {userResponse}");
+                    break;
+                case Hair.BUZZED:
+                    costOfStyle = (int)Hair.BUZZED;
+                    Console.WriteLine($"You chose {userResponse}");
+                    break;
+                default:
+                    Console.WriteLine("Sorry, you chose an invalid option");
+                    break;
+            }
 
             DisplayContinuePrompt();
         }
 
-        static void DisplayAllHairStyles()
-        {
-            //foreach (var item in collection)
-            //{
+        /// <summary>
+        /// display calculate & display quote
+        /// </summary>
+        static void DisplayQuote()
+        {           
+            DisplayHeader("Your Quote");
 
-            //}
+            quote = numberOfPeople * costOfStyle;
+
+            Console.WriteLine($"Your quote is ${quote}.");
+
+            DisplayContinuePrompt();
         }
 
 
@@ -79,13 +134,10 @@ namespace CapstoneProject
             {
                 DisplayHeader("Main Menu");
 
-                Console.WriteLine("\tA) Get Number of People");
-                Console.WriteLine("\tB) ");
-                Console.WriteLine("\tC) ");
-                Console.WriteLine("\tD) ");
-                Console.WriteLine("\tE) ");
-                Console.WriteLine("\tF) ");
-                Console.WriteLine("\tG) Exit");
+                Console.WriteLine("\tA) Select Hair Style");
+                Console.WriteLine("\tB) Get Number Of People");
+                Console.WriteLine("\tC) Get Quote");
+                Console.WriteLine("\tD) Exit");
 
 
                 Console.Write("Enter Choice: ");
@@ -94,30 +146,17 @@ namespace CapstoneProject
                 switch (menuChoice)
                 {
                     case "A":
-                        DisplayNumberOfPeople();
+                        DisplayHairStyleSelection();
                         break;
                     case "B":
-
+                        DisplayNumberOfPeople();
                         break;
                     case "C":
-
+                        DisplayQuote();
                         break;
                     case "D":
-
-                        break;
-                    case "E":
-
-                        break;
-                    case "F":
-
-                        break;
-
-                    case "G":
                         exiting = true;
                         break;
-
-
-
                     default:
                         break;
                 }
@@ -137,8 +176,8 @@ namespace CapstoneProject
             Console.WriteLine();
             Console.WriteLine("\t\t\t Capstone Project");
             Console.WriteLine();
-            Console.WriteLine("In this project I will be giving you a quote for how much your hairstyle for your event will be");
-            Console.WriteLine("depending on the hairstyle(s) and how many people.");
+            Console.WriteLine("In this project I will be giving you a quote for how much your hairstyle is");
+            Console.WriteLine("depending on the hairstyle and how many people.");
 
             DisplayContinuePrompt();
         }
@@ -173,7 +212,7 @@ namespace CapstoneProject
             Console.Clear();
 
             Console.WriteLine();
-            Console.WriteLine("\t\t\tThat's it Folks");
+            Console.WriteLine("\t\t\tThank You, have a nice day!");
             Console.WriteLine();
 
             Console.WriteLine("press any key to exit.");
